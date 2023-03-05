@@ -1,11 +1,11 @@
 import { Component } from 'react';
-import './App.css';
+import css from './App.module.css';
 import { fetchImages, PER_PAGE } from '../servicesApi/api';
-import { Searchbar } from './Searchbar/Searchbar';
-import { ImageGallery } from './ImageGallery/ImageGallery';
-import { Button } from './Button/Button';
+import { Searchbar } from './Searchbar';
+import { ImageGallery } from './ImageGallery';
+import { Button } from './Button';
 import { Loader } from './Loader/Loader';
-import { Modal } from './Modal/Modal';
+import { Modal } from './Modal';
 import { toast } from 'react-toastify';
 
 export class App extends Component {
@@ -21,9 +21,10 @@ export class App extends Component {
   };
 
   componentDidUpdate(_, prevState) {
-    const prevQuery = prevState.query;
-    const nextQuery = this.state.query;
-    if (prevQuery !== nextQuery) {
+       if (
+      this.state.query !== prevState.query ||
+      this.state.page !== prevState.page
+    ) {
       this.getImagesData();
     }
   }
@@ -35,7 +36,7 @@ export class App extends Component {
   };
 
   handleLoadMoreImg = () => {
-    this.getImagesData();
+  this.setState(({ page }) => ({ page: page + 1 }));
   };
 
   getImagesData = async () => {
@@ -57,7 +58,6 @@ export class App extends Component {
         return {
           images: [...prevState.images, ...images],
           currentImgPerPage: hits.length,
-          page: prevState.page + 1,
         };
       });
     } catch (error) {
@@ -89,13 +89,13 @@ export class App extends Component {
     const { images, loading, currentImgPerPage, error, showModal, largeImage } =
       this.state;
     return (
-      <div className="App">
+      <div className={css.App}>
         <Searchbar onSubmit={this.handleFormSubmit} />
         {images.length > 0 && !error && (
           <>
             <ImageGallery images={images} onClick={this.openModal} />
             {currentImgPerPage && currentImgPerPage < PER_PAGE && (
-              <p className="Message">No more pictures</p>
+              <p className={css.Message}>No more pictures</p>
             )}
           </>
         )}

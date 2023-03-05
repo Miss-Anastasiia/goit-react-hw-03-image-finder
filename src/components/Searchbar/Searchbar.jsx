@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import propTypes from 'prop-types';
-import './Searchbar.css';
+import css from './Searchbar.module.css'
 import { FiSearch } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,18 +28,18 @@ export class Searchbar extends Component {
 
   render() {
     return (
-      <header className="Searchbar">
+      <header className={css.Searchbar}>
         <form
-          className="SearchForm"
+          className={css.SearchForm}
           onSubmit={this.handleSubmit}
           autoComplete="off"
         >
-          <button type="submit" className="SearchForm-button">
+          <button type="submit" className={css.SearchForm_button}>
             <FiSearch size={25} stroke="#3f51b5" />
           </button>
 
           <input
-            className="SearchForm-input"
+            className={css.SearchForm_input}
             type="text"
             autoComplete="off"
             autoFocus
